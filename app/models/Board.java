@@ -64,4 +64,18 @@ public class Board {
 	private boolean isValidPosition(int x, int y) {
 		return x >= 0 && x < size && y >= 0 && y < size;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
+				Character player = board[x][y];
+				if (player == null) player = '-';
+				result.append(" " + player);
+			}
+			result.append("\n");
+		}
+		return result.toString();
+	}
 }
