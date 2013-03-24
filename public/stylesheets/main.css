@@ -1,0 +1,48 @@
+html, body, table, tr, td, div {
+	font-family: arial;
+}
+
+table {
+	border: 2px solid #778899;
+	border-collapse: collapse;
+	text-align: center;
+	margin: 18px 0;
+}
+
+table td {
+	width: 15px;
+	height: 15px;
+	line-height: 15px;
+	border: 1px solid #778899;
+}
+
+table.game-complete td {
+	background-color: #F0F0F0
+}
+	
+table:not(.game-complete) td:hover:not(.played) {
+    background-color: #AFEEEE;
+}
+
+.new-game {
+    font-size: 18px;
+    font-weight: bold;
+	line-height: 24px;
+}
+
+.status-message {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.error-message {
+	color: #CC0000;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.win-message {
+	color: #339933;
+    font-size: 24px;
+    font-weight: bold;
+}

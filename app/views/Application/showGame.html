@@ -1,0 +1,63 @@
+#{extends 'main.html' /}
+#{set title:'Game' /}
+
+<h1>Game of ${game.numToWin}-in-a-Row</h1>
+
+<div class="status-message" #{if winner}style="display:none"#{/if}>Current Player: <span class="current-player">${game.currentPlayer}</span></div>
+
+%{ board = game.board }%
+
+<div class="error-message" style="display:none"></div>
+<div class="win-message" #{if !winner}style="display:none"#{/if}>
+Player <span class="winner">${winner}</span> won!
+</div>
+
+<table data-game-id="${id}" #{if winner}class="game-complete"#{/if}>
+    #{list items:0..board.size - 1, as:'r'}
+    <tr>
+        #{list items:0..board.size - 1, as:'c'}
+        %{ player = board.getPlayer(r, c) }%
+        <td #{if player}class="played"#{/if} data-row="${r}" data-col="${c}">
+            ${player}
+        </td>
+        #{/list}
+    </tr>
+    #{/list}
+</table>
+
+#{form @deleteGame(id)}
+  <input type="submit" class="new-game" value="New Game">
+#{/form}
+
+<script>
+$(document).ready(function() {
+	var playAction = #{jsAction @play(':id', ':row', ':col', ':player') /};
+	
+	$('td:not(.played)').click(function() {
+		var self = $(this);
+		var row = self.attr('data-row');
+		var col = self.attr('data-col');
+		var id = self.parents('table').attr('data-game-id');
+		var player = $('.current-player').text();
+		$.post(playAction({id: id, row: row, col: col, player: player}),
+	       function(result) {
+	           if (result.error) {
+	        	   $('.error-message').text(result.error);
+                   $('.error-message').show();
+	           } else {
+	        	   self.unbind();
+	        	   self.addClass('played');
+	        	   self.text(player);
+	        	   $('.current-player').text(result.currentPlayer);
+	        	   if (result.winner) {
+	        		   $('.winner').text(player);
+	        		   $('.win-message').show();
+                       $('.status-message').hide();
+	        		   $('table').addClass('game-complete');
+	        		   $('td').unbind();
+	        	   }
+	           }
+	       });
+	});
+});
+</script>
