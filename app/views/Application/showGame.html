@@ -25,8 +25,8 @@ Player <span class="winner">${winner}</span> won!
     #{/list}
 </table>
 
-#{form @deleteGame(id)}
-  <input type="submit" class="new-game" value="New Game">
+#{form @deleteGame(id), id:'new-game'}
+  <button type="submit" class="new-game">Restart Game</button>
 #{/form}
 
 <script>
